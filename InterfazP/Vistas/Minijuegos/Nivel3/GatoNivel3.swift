@@ -17,6 +17,15 @@ struct GatoNivel3: View {
     @State var bowlImage = "Nivel3/catBowlEmpty"
     @State var textToSpeech = true
     
+    @State var catBox = CGRect.zero
+    @State var bowlBox = CGRect.zero
+
+    @State var dragAmount = CGSize.zero
+    @State var dragAmountToy = CGSize.zero
+    @State var dragAmountFood = CGSize.zero
+
+
+    
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -70,36 +79,17 @@ struct GatoNivel3: View {
                             .onTapGesture {
                                 speakF(text: "Gato", isOn: textToSpeech)
                             }
-                            .onDrop(of: ["public.text"], isTargeted: nil) { providers in
-                                if let provider = providers.first {
-                                    provider.loadObject(ofClass: NSString.self) { item, _ in
-                                        if let string = item as? NSString {
-                                            if string == "dogBall" {
-                                                play(sound: "catPlay.mp3")
-                                                DispatchQueue.main.async {
-                                                    play(sound: "catMeow1.mp3")
-                                                    catImage = "Nivel3/gatoJugando"
-                                                    Task {
-                                                        try? await Task.sleep(nanoseconds: UInt64(5 * 1E9))
-                                                        catImage = "Nivel3/gatoversion1"
-                                                    }
-                                                }
-                                            } else if string == "sponge"{
-                                                play(sound: "scrubbing.mp3")
-                                                DispatchQueue.main.async {
-                                                    catImage = "Nivel3/catShower"
-                                                    Task {
-                                                        play(sound: "catMeow1.mp3")
-                                                        try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
-                                                        catImage = "Nivel3/gatoversion1"
-                                                    }
-                                                }
-                                            }
+                            .overlay {
+                                GeometryReader { geo2 in
+                                    Color.clear
+                                        .onAppear{
+                                            catBox = geo2.frame(in: .global)
                                         }
-                                    }
                                 }
-                                return true
+                                .frame(width: geo.size.width/1.5 - geo.size.width/2.5, height: geo.size.height/1.9)
+                                .position(x:geo.size.width/6,y:geo.size.height/1.6)
                             }
+
                         Image(bowlImage)
                             .resizable()
                             .scaledToFit()
@@ -108,28 +98,17 @@ struct GatoNivel3: View {
                             .onTapGesture {
                                 speakF(text: "Tazón del gato", isOn: textToSpeech)
                             }
-                            .onDrop(of: ["public.text"], isTargeted: nil) { providers in
-                                if let provider = providers.first {
-                                    provider.loadObject(ofClass: NSString.self) { item, _ in
-                                        if let string = item as? NSString {
-                                            if string == "dogFoodBag" {
-                                                play(sound:"catMeow1.mp3")
-                                                DispatchQueue.main.async {
-                                                    bowlImage = "Nivel3/catBowlFood"
-                                                    catImage = "Nivel3/gatoComiendo"
-                                                    Task {
-                                                        play(sound:"pourFood.mp3")
-                                                        try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
-                                                        bowlImage = "Nivel3/catBowlEmpty"
-                                                        catImage = "Nivel3/gatoversion1"
-                                                    }
-                                                }
-                                            }
+                            .overlay {
+                                GeometryReader { geo2 in
+                                    Color.clear
+                                        .onAppear{
+                                            bowlBox = geo2.frame(in: .global)
                                         }
-                                    }
                                 }
-                                return true
+                                .frame(width: geo.size.width/7, height: geo.size.height/7)
+                                .position(x:geo.size.width/2.3,y:geo.size.height/1.26)
                             }
+                            
                         
                     }
                     .position(x: geo.size.width/3, y: geo.size.height/2 + geo.size.height/10)
@@ -161,9 +140,30 @@ struct GatoNivel3: View {
                     .onTapGesture {
                         speakF(text: "Comida para el gato", isOn: textToSpeech)
                     }
-                    .onDrag {
-                        return NSItemProvider(object: "dogFoodBag" as NSString)
-                    }
+                    .offset(dragAmountFood)
+                    .gesture(
+                        DragGesture(coordinateSpace: .global)
+                            .onChanged{
+                                self.dragAmountFood = CGSize(width: $0.translation.width, height: $0.translation.height)
+                            }
+                            .onEnded { _ in
+                                if bowlBox.contains(CGPoint(x: geo.size.width/1.39 + dragAmountFood.width, y: geo.size.height/2.57 + dragAmountFood.height)) {
+                                            play(sound:"catMeow1.mp3")
+                                                DispatchQueue.main.async {
+                                                    bowlImage = "Nivel3/catBowlFood"
+                                                    catImage = "Nivel3/gatoComiendo"
+                                                    Task {
+                                                        play(sound:"pourFood.mp3")
+                                                        try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
+                                                        bowlImage = "Nivel3/catBowlEmpty"
+                                                        catImage = "Nivel3/gatoversion1"
+                                                    }
+                                                }
+                                        }
+                                        self.dragAmountFood = .zero
+                                    }
+                    )
+                
                 Text("Comida")
                     .foregroundColor(Color.black)
                     .font(.custom("HelveticaNeue", size: 50))
@@ -172,6 +172,7 @@ struct GatoNivel3: View {
                     .onTapGesture {
                         speakF(text: "Comida", isOn: textToSpeech)
                     }
+                
                 Image("Nivel3/sponge")
                     .resizable()
                     .scaledToFit()
@@ -181,9 +182,27 @@ struct GatoNivel3: View {
                     .onTapGesture {
                         speakF(text: "Esponja", isOn: textToSpeech)
                     }
-                    .onDrag {
-                        return NSItemProvider(object: "sponge" as NSString)
-                    }
+                    .offset(dragAmount)
+                    .gesture(
+                        DragGesture(coordinateSpace: .global)
+                            .onChanged{
+                                self.dragAmount = CGSize(width: $0.translation.width, height: $0.translation.height)
+                            }
+                            .onEnded { _ in
+                                        if catBox.contains(CGPoint(x: geo.size.width/1.42 + dragAmount.width, y: geo.size.height/1.66 + dragAmount.height)) {
+                                            play(sound: "scrubbing.mp3")
+                                            catImage = "Nivel3/catShower"
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                                play(sound: "catMeow1.mp3")
+                                                catImage = "Nivel3/gatoversion1"
+                                            }
+                                        }
+                                        self.dragAmount = .zero
+                                    }
+                    )
+//                    .onDrag {
+//                        return NSItemProvider(object: "sponge" as NSString)
+//                    }
                 Text("Limpieza")
                     .foregroundColor(Color.black)
                     .font(.custom("HelveticaNeue", size: 50))
@@ -201,9 +220,28 @@ struct GatoNivel3: View {
                     .onTapGesture {
                         speakF(text: "Juguete para el gato", isOn: textToSpeech)
                     }
-                    .onDrag {
-                        return NSItemProvider(object: "dogBall" as NSString)
-                    }
+                    .offset(dragAmountToy)
+                    .gesture(
+                        DragGesture(coordinateSpace: .global)
+                            .onChanged{
+                                self.dragAmountToy = CGSize(width: $0.translation.width, height: $0.translation.height)
+                            }
+                            .onEnded { _ in
+                                        if catBox.contains(CGPoint(x: geo.size.width/1.42 + dragAmountToy.width, y: geo.size.height/1.66 + dragAmountToy.height)) {
+                                            play(sound: "catPlay.mp3")
+                                            DispatchQueue.main.async {
+                                                play(sound: "catMeow1.mp3")
+                                                catImage = "Nivel3/gatoJugando"
+                                                Task {
+                                                    try? await Task.sleep(nanoseconds: UInt64(5 * 1E9))
+                                                    catImage = "Nivel3/gatoversion1"
+                                                }
+                                            }
+                                            
+                                        }
+                                        self.dragAmountToy = .zero
+                                    }
+                    )
                 Text("Jugar")
                     .foregroundColor(Color.black)
                     .font(.custom("HelveticaNeue", size: 50))

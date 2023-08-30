@@ -257,9 +257,7 @@ struct AddPictogram: View {
                             
                             // Use the decodedArray as needed
                             decodedArray.append(a)
-                            
-                            //after retrieveng already stored data overwrite with new dataAA
-                            
+                                                        
                             let encoder = PropertyListEncoder()
                             encoder.outputFormat = .binary
                             let encodedData = try encoder.encode(decodedArray)
@@ -282,10 +280,9 @@ struct AddPictogram: View {
                         } catch {
                             print("Error encoding or writing data: \(error)")
                         }
-                        // The file doesn't exist, handle the situation accordingly
-                        // For example, you can assume it's the first time and initialize the array
+                        // The file doesn't exist,
+                 
                         var myArray = [Imagen]()
-                        // Perform any necessary operations with myArray
                     }
                 } else {
                     

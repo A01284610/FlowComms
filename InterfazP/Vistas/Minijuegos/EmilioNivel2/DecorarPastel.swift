@@ -26,6 +26,18 @@ struct DecorarPastel: View {
     
     @State private var mostrarComunicaciones = false
     
+    @State var cakeBox = CGRect.zero
+    
+    @State var dragAmountBetunAzul = CGSize.zero
+    @State var dragAmountBetunRosa = CGSize.zero
+    @State var dragAmountBetunNaranja = CGSize.zero
+    @State var dragAmountChispas = CGSize.zero
+    @State var dragAmountPerlas = CGSize.zero
+    @State var dragAmountVelas = CGSize.zero
+    @State var dragAmountBlanco = CGSize.zero
+
+
+    
     var body: some View {
         VStack(){
             
@@ -138,12 +150,23 @@ struct DecorarPastel: View {
                             //width:geo2.size.width*1,height:geo2.size.height*1.0
                                 .scaledToFill()
                             
-                            
-                            Image(pastelImage)
-                                .resizable()
-                                .frame(width:geo2.size.width*0.8,height:geo2.size.height*0.8)
-                                .scaledToFill()
-                                .offset(x: 20, y: 45)
+                            GeometryReader { geo3 in
+                                Image(pastelImage)
+                                    .resizable()
+                                    .frame(width:geo2.size.width*0.8,height:geo2.size.height*0.8)
+                                    .scaledToFill()
+                                    .offset(x: 20, y: 45)
+                                    .overlay {
+                                        Color.clear
+                                            .onAppear{
+                                                cakeBox = geo3.frame(in: .global)
+                                            }
+                                    }
+
+                            }
+                            .frame(width:geo2.size.width*0.8,height:geo2.size.height*0.8)
+
+
                             
                             Image(betunes)
                                 .resizable()
@@ -168,50 +191,51 @@ struct DecorarPastel: View {
                                 .frame(width:geo2.size.width*0.8,height:geo2.size.height*0.8)
                                 .scaledToFill()
                                 .offset(x: 20, y: 45)
-                                .onDrop(of: ["public.text"], isTargeted: nil) { providers in
-                                    if let provider = providers.first {
-                                        provider.loadObject(ofClass: NSString.self) { item, _ in
-                                            if let string = item as? NSString {
-                                                if string == "betunAzul" {
-                                                    DispatchQueue.main.async {
-                                                        betunes = "Emilio/betunAzul"
-                                                    }
-                                                }else if string == "betunRosa" {
-                                                    DispatchQueue.main.async{
-                                                        betunes = "Emilio/betunRosa"
-                                                        
-                                                    }
-                                                }else if string == "betunNaranja" {
-                                                    DispatchQueue.main.async{
-                                                        betunes = "Emilio/betunNaranja"
-                                                        
-                                                    }
-                                                }else if string == "chispas" {
-                                                    DispatchQueue.main.async{
-                                                        chispas = "Emilio/chispas"
-                                                    }
-                                                }else if string == "perlas" {
-                                                    DispatchQueue.main.async{
-                                                        perlas = "Emilio/perlas"
-                                                    }
-                                                } else if string == "velas" {
-                                                    DispatchQueue.main.async{
-                                                        velas = "Emilio/velas"
-                                                    }
-                                                }else if string == "blanco"{
-                                                    DispatchQueue.main.async{
-                                                        velas = ""
-                                                        perlas = ""
-                                                        chispas = ""
-                                                        betunes = ""
-                                                        
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    return true
-                                }
+                            
+//                                .onDrop(of: ["public.text"], isTargeted: nil) { providers in
+//                                    if let provider = providers.first {
+//                                        provider.loadObject(ofClass: NSString.self) { item, _ in
+//                                            if let string = item as? NSString {
+//                                                if string == "betunAzul" {
+//                                                    DispatchQueue.main.async {
+//                                                        betunes = "Emilio/betunAzul"
+//                                                    }
+//                                                }else if string == "betunRosa" {
+//                                                    DispatchQueue.main.async{
+//                                                        betunes = "Emilio/betunRosa"
+//
+//                                                    }
+//                                                }else if string == "betunNaranja" {
+//                                                    DispatchQueue.main.async{
+//                                                        betunes = "Emilio/betunNaranja"
+//
+//                                                    }
+//                                                }else if string == "chispas" {
+//                                                    DispatchQueue.main.async{
+//                                                        chispas = "Emilio/chispas"
+//                                                    }
+//                                                }else if string == "perlas" {
+//                                                    DispatchQueue.main.async{
+//                                                        perlas = "Emilio/perlas"
+//                                                    }
+//                                                } else if string == "velas" {
+//                                                    DispatchQueue.main.async{
+//                                                        velas = "Emilio/velas"
+//                                                    }
+//                                                }else if string == "blanco"{
+//                                                    DispatchQueue.main.async{
+//                                                        velas = ""
+//                                                        perlas = ""
+//                                                        chispas = ""
+//                                                        betunes = ""
+//
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                    return true
+//                                }
                             
                             
                             
@@ -225,60 +249,144 @@ struct DecorarPastel: View {
                             //Aqui va lo relacionando con arrastrar y soltar
                             Image("Emilio/betun_azul")
                                 .resizable()
-                                .onDrag {
-                                    return NSItemProvider(object: "betunAzul" as NSString)
-                                }
-                            
+                                .offset(dragAmountBetunAzul)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .global)
+                                        .onChanged{
+                                            self.dragAmountBetunAzul = CGSize(width: $0.translation.width, height: $0.translation.height)
+                                        }
+                                        .onEnded { _ in
+                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunAzul.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunAzul.height)) {
+                                                    DispatchQueue.main.async {
+                                                        betunes = "Emilio/betunAzul"
+                                                    }
+                                                    }
+                                                    self.dragAmountBetunAzul = .zero
+                                                }
+                                )
                                 .frame(width: 100, height: 100)
                                 .position(CGPoint(x: 80, y: 70))
+                            
                             Image("Emilio/betun_rosa")
                                 .resizable()
-                                .onDrag {
-                                    return NSItemProvider(object: "betunRosa" as NSString)
-                                }
-                            
+                                .offset(dragAmountBetunRosa)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .global)
+                                        .onChanged{
+                                            self.dragAmountBetunRosa = CGSize(width: $0.translation.width, height: $0.translation.height)
+                                        }
+                                        .onEnded { _ in
+                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunRosa.width, y: (geo2.frame(in: .global).minY) + 70 + dragAmountBetunRosa.height)) {
+                                                    DispatchQueue.main.async {
+                                                        betunes = "Emilio/betunRosa"
+                                                    }
+                                                    }
+                                                    self.dragAmountBetunRosa = .zero
+                                                }
+                                )
                                 .frame(width: 100, height: 100)
                                 .position(CGPoint(x: 230, y: 70))
+                            
                             Image("Emilio/betun_naranja")
                                 .resizable()
-                                .onDrag {
-                                    return NSItemProvider(object: "betunNaranja" as NSString)
-                                }
-                            
+                                .offset(dragAmountBetunNaranja)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .global)
+                                        .onChanged{
+                                            self.dragAmountBetunNaranja = CGSize(width: $0.translation.width, height: $0.translation.height)
+                                        }
+                                        .onEnded { _ in
+                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunNaranja.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountBetunNaranja.height)) {
+                                                    DispatchQueue.main.async {
+                                                        betunes = "Emilio/betunNaranja"
+                                                    }
+                                                    }
+                                                    self.dragAmountBetunNaranja = .zero
+                                                }
+                                )
                                 .frame(width: 100, height: 100)
                                 .position(CGPoint(x: 230, y: 220))
                             
                             Image("Emilio/chispa")
                                 .resizable()
-                                .onDrag {
-                                    return NSItemProvider(object: "chispas" as NSString)
-                                }
+                                .offset(dragAmountChispas)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .global)
+                                        .onChanged{
+                                            self.dragAmountChispas = CGSize(width: $0.translation.width, height: $0.translation.height)
+                                        }
+                                        .onEnded { _ in
+                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountChispas.height)) {
+                                                    DispatchQueue.main.async {
+                                                        chispas = "Emilio/chispas"
+                                                    }
+                                                    }
+                                                    self.dragAmountChispas = .zero
+                                                }
+                                )
                             
                                 .frame(width: 100, height: 100)
                                 .position(CGPoint(x: 80, y: 370))
                             Image("Emilio/perla")
                                 .resizable()
-                                .onDrag {
-                                    return NSItemProvider(object: "perlas" as NSString)
-                                }
+                                .offset(dragAmountPerlas)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .global)
+                                        .onChanged{
+                                            self.dragAmountPerlas = CGSize(width: $0.translation.width, height: $0.translation.height)
+                                        }
+                                        .onEnded { _ in
+                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountPerlas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountPerlas.height)) {
+                                                    DispatchQueue.main.async {
+                                                        perlas = "Emilio/perlas"
+                                                    }
+                                                    }
+                                                    self.dragAmountPerlas = .zero
+                                                }
+                                )
                             
                                 .frame(width: 100, height: 100)
                                 .position(CGPoint(x: 230, y: 370))
                             Image("Emilio/vela")
                                 .resizable()
-                                .onDrag {
-                                    return NSItemProvider(object: "velas" as NSString)
-                                }
-                            
+                                .offset(dragAmountVelas)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .global)
+                                        .onChanged{
+                                            self.dragAmountVelas = CGSize(width: $0.translation.width, height: $0.translation.height)
+                                        }
+                                        .onEnded { _ in
+                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountVelas.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountVelas.height)) {
+                                                    DispatchQueue.main.async {
+                                                        velas = "Emilio/velas"
+                                                    }
+                                                    }
+                                                    self.dragAmountVelas = .zero
+                                                }
+                                )
                                 .frame(width: 100, height: 100)
                                 .position(CGPoint(x: 80, y: 220))
                             
                             Image(pastelImage)
                                 .resizable()
-                                .onDrag {
-                                    return NSItemProvider(object: "blanco" as NSString)
-                                }
-                            
+                                .offset(dragAmountBlanco)
+                                .gesture(
+                                    DragGesture(coordinateSpace: .global)
+                                        .onChanged{
+                                            self.dragAmountBlanco = CGSize(width: $0.translation.width, height: $0.translation.height)
+                                        }
+                                        .onEnded { _ in
+                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 150 + dragAmountBlanco.width, y: (geo2.frame(in: .global).minY) + 470 + dragAmountBlanco.height)) {
+                                                    DispatchQueue.main.async {
+                                                        velas = ""
+                                                        perlas = ""
+                                                        chispas = ""
+                                                        betunes = ""
+                                                    }
+                                                    }
+                                                    self.dragAmountBlanco = .zero
+                                                }
+                                )
                                 .frame(width: 100, height: 100)
                                 .position(CGPoint(x: 150, y: 470))
                             

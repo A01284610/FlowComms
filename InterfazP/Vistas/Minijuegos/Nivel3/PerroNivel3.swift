@@ -18,14 +18,12 @@ struct PerroNivel3: View {
     @State var dogImage = "Nivel3/dogversion1"
     @Environment(\.dismiss) private var dismiss
     
-    @State var positionFood = CGSize.zero
-    @State var foodDragging = false
-    
-    @State var positionSponge = CGSize.zero
-    @State var spongeDragging = false
-    
-    @State var positionBall = CGSize.zero
-    @State var ballDragging = false
+    @State var dogBox = CGRect.zero
+    @State var bowlBox = CGRect.zero
+
+    @State var dragAmountSponge = CGSize.zero
+    @State var dragAmountToy = CGSize.zero
+    @State var dragAmountFood = CGSize.zero
     
     var body: some View {
         ZStack {
@@ -75,40 +73,53 @@ struct PerroNivel3: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: geo.size.width/1.5 - geo.size.width/15, height: geo.size.height/1.6)
+                            .position(x:geo.size.width/5.5,y:geo.size.height/1.6)
                             .onTapGesture {
                                 speakF(text: "Perro", isOn: textToSpeech)
                             }
-                            .position(x:geo.size.width/5.5,y:geo.size.height/1.6)
-                            .onDrop(of: ["public.text"], isTargeted: nil) { providers in
-                                if let provider = providers.first {
-                                    provider.loadObject(ofClass: NSString.self) { item, _ in
-                                        if let string = item as? NSString {
-                                            if string == "dogBall" {
-                                                play(sound: "squeaky.mp3")
-                                                DispatchQueue.main.async {
-                                                    play(sound: "dogBark1.mp3")
-                                                    dogImage = "Nivel3/dogPlay"
-                                                    Task {
-                                                        try? await Task.sleep(nanoseconds: UInt64(5 * 1E9))
-                                                        dogImage = "Nivel3/dogversion1"
-                                                    }
-                                                }
-                                            } else if string == "sponge"{
-                                                play(sound: "scrubbing.mp3")
-                                                DispatchQueue.main.async {
-                                                    dogImage = "Nivel3/perroEnjabonado"
-                                                    Task {
-                                                        play(sound: "dogBark1.mp3")
-                                                        try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
-                                                        dogImage = "Nivel3/dogversion1"
-                                                    }
-                                                }
-                                            }
+                            .overlay {
+                                GeometryReader { geo2 in
+                                    Color.clear
+                                        .onAppear{
+                                            dogBox = geo2.frame(in: .global)
                                         }
-                                    }
                                 }
-                                return true
+                                .frame(width: geo.size.width/1.4 - geo.size.width/2.5, height: geo.size.height/1.9)
+                                .position(x:geo.size.width/6,y:geo.size.height/1.6)
                             }
+                        
+                            
+                        
+//                            .onDrop(of: ["public.text"], isTargeted: nil) { providers in
+//                                if let provider = providers.first {
+//                                    provider.loadObject(ofClass: NSString.self) { item, _ in
+//                                        if let string = item as? NSString {
+//                                            if string == "dogBall" {
+//                                                play(sound: "squeaky.mp3")
+//                                                DispatchQueue.main.async {
+//                                                    play(sound: "dogBark1.mp3")
+//                                                    dogImage = "Nivel3/dogPlay"
+//                                                    Task {
+//                                                        try? await Task.sleep(nanoseconds: UInt64(5 * 1E9))
+//                                                        dogImage = "Nivel3/dogversion1"
+//                                                    }
+//                                                }
+//                                            } else if string == "sponge"{
+//                                                play(sound: "scrubbing.mp3")
+//                                                DispatchQueue.main.async {
+//                                                    dogImage = "Nivel3/perroEnjabonado"
+//                                                    Task {
+//                                                        play(sound: "dogBark1.mp3")
+//                                                        try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
+//                                                        dogImage = "Nivel3/dogversion1"
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                return true
+//                            }
                         Image(bowlImage)
                             .resizable()
                             .scaledToFit()
@@ -117,28 +128,39 @@ struct PerroNivel3: View {
                             .onTapGesture {
                                 speakF(text: "Tazón del perro", isOn: textToSpeech)
                             }
-                            .onDrop(of: ["public.text"], isTargeted: nil) { providers in
-                                if let provider = providers.first {
-                                    provider.loadObject(ofClass: NSString.self) { item, _ in
-                                        if let string = item as? NSString {
-                                            if string == "dogFoodBag" {
-                                                play(sound: "pourFood.mp3")
-                                                DispatchQueue.main.async {
-                                                    bowlImage = "Nivel3/dogBowlFood"
-                                                    dogImage = "Nivel3/perroComiendo"
-                                                    Task {
-                                                        play(sound:"dogBark1.mp3")
-                                                        try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
-                                                        bowlImage = "Nivel3/dogBowlEmpty"
-                                                        dogImage = "Nivel3/dogversion1"
-                                                    }
-                                                }
-                                            }
+                            .overlay {
+                                GeometryReader { geo2 in
+                                    Color.clear
+                                        .onAppear{
+                                            bowlBox = geo2.frame(in: .global)
                                         }
-                                    }
                                 }
-                                return true
+                                .frame(width: geo.size.width/7, height: geo.size.height/7)
+                                .position(x:geo.size.width/2.3,y:geo.size.height/1.26)
                             }
+                        
+//                            .onDrop(of: ["public.text"], isTargeted: nil) { providers in
+//                                if let provider = providers.first {
+//                                    provider.loadObject(ofClass: NSString.self) { item, _ in
+//                                        if let string = item as? NSString {
+//                                            if string == "dogFoodBag" {
+//                                                play(sound: "pourFood.mp3")
+//                                                DispatchQueue.main.async {
+//                                                    bowlImage = "Nivel3/dogBowlFood"
+//                                                    dogImage = "Nivel3/perroComiendo"
+//                                                    Task {
+//                                                        play(sound:"dogBark1.mp3")
+//                                                        try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
+//                                                        bowlImage = "Nivel3/dogBowlEmpty"
+//                                                        dogImage = "Nivel3/dogversion1"
+//                                                    }
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                return true
+//                            }
                         
                     }
                     .position(x: geo.size.width/3, y: geo.size.height/2 + geo.size.height/10)
@@ -173,6 +195,30 @@ struct PerroNivel3: View {
                     .onDrag {
                         return NSItemProvider(object: "dogFoodBag" as NSString)
                     }
+                    .offset(dragAmountFood)
+                    .gesture(
+                        DragGesture(coordinateSpace: .global)
+                            .onChanged{
+                                self.dragAmountFood = CGSize(width: $0.translation.width, height: $0.translation.height)
+                            }
+                            .onEnded { _ in
+                                if bowlBox.contains(CGPoint(x: geo.size.width/1.39 + dragAmountFood.width, y: geo.size.height/2.57 + dragAmountFood.height)) {
+                                    play(sound: "pourFood.mp3")
+                                            DispatchQueue.main.async {
+                                                bowlImage = "Nivel3/dogBowlFood"
+                                                dogImage = "Nivel3/perroComiendo"
+                                                Task {
+                                                    play(sound:"dogBark1.mp3")
+                                                    try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
+                                                    bowlImage = "Nivel3/dogBowlEmpty"
+                                                    dogImage = "Nivel3/dogversion1"
+                                                }
+                                            }
+                                        }
+                                        self.dragAmountFood = .zero
+                                    }
+                    )
+                
                 Text("Comida")
                     .foregroundColor(Color.black)
                     .font(.custom("HelveticaNeue", size: 50))
@@ -190,9 +236,28 @@ struct PerroNivel3: View {
                     .onTapGesture {
                         speakF(text: "Esponja", isOn: textToSpeech)
                     }
-                    .onDrag {
-                        return NSItemProvider(object: "sponge" as NSString)
-                    }
+                    .offset(dragAmountSponge)
+                    .gesture(
+                        DragGesture(coordinateSpace: .global)
+                            .onChanged{
+                                self.dragAmountSponge = CGSize(width: $0.translation.width, height: $0.translation.height)
+                            }
+                            .onEnded { _ in
+                                if dogBox.contains(CGPoint(x: geo.size.width/1.42 + dragAmountSponge.width, y: geo.size.height/1.66 + dragAmountSponge.height)) {
+                                            play(sound: "scrubbing.mp3")
+                                            DispatchQueue.main.async {
+                                                dogImage = "Nivel3/perroEnjabonado"
+                                                Task {
+                                                    play(sound: "dogBark1.mp3")
+                                                    try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
+                                                    dogImage = "Nivel3/dogversion1"
+                                                }
+                                            }
+                                        }
+                                        self.dragAmountSponge = .zero
+                                    }
+                    )
+                
                 Text("Limpieza")
                     .foregroundColor(Color.black)
                     .font(.custom("HelveticaNeue", size: 50))
@@ -210,9 +275,29 @@ struct PerroNivel3: View {
                     .onTapGesture {
                         speakF(text: "Pelota del Perro", isOn: textToSpeech)
                     }
-                    .onDrag {
-                        return NSItemProvider(object: "dogBall" as NSString)
-                    }
+                    .offset(dragAmountToy)
+                    .gesture(
+                        DragGesture(coordinateSpace: .global)
+                            .onChanged{
+                                self.dragAmountToy = CGSize(width: $0.translation.width, height: $0.translation.height)
+                            }
+                            .onEnded { _ in
+                                if dogBox.contains(CGPoint(x: geo.size.width/1.39 + dragAmountToy.width, y: geo.size.height/1.23 + dragAmountToy.height)) {
+                                        play(sound: "squeaky.mp3")
+                                            DispatchQueue.main.async {
+                                                play(sound: "dogBark1.mp3")
+                                                dogImage = "Nivel3/dogPlay"
+                                                Task {
+                                                    try? await Task.sleep(nanoseconds: UInt64(5 * 1E9))
+                                                    dogImage = "Nivel3/dogversion1"
+                                                }
+                                            }
+
+                                        }
+                                        self.dragAmountToy = .zero
+                                    }
+                    )
+                
                 Text("Jugar")
                     .foregroundColor(Color.black)
                     .font(.custom("HelveticaNeue", size: 50))
