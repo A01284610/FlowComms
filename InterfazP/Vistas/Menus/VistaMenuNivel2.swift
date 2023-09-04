@@ -120,7 +120,7 @@ struct VistaMenuNivel2: View {
                                     .shadow(radius: 20)
                                 }
                                 .fullScreenCover(isPresented: $mostrarMenuNivel1){
-                                    DecorarPastel()
+                                    DecorarPastelNivel2()
                                 }
                             }
                             

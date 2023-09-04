@@ -64,6 +64,7 @@
 		FB45DAB22A33DF7D008DB8DB /* ballonPop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FB45DAB12A33DF7D008DB8DB /* ballonPop.mp3 */; };
 		FB45DAB82A33E32F008DB8DB /* Pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FB45DAB72A33E32F008DB8DB /* Pop.mp3 */; };
 		FB5D35382A2E478F00CDFA60 /* VistaRegistro.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5D35372A2E478F00CDFA60 /* VistaRegistro.swift */; };
+		FBC5DFB22AA0181900862141 /* DecorarPastelNivel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC5DFB12AA0181900862141 /* DecorarPastelNivel2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +122,7 @@
 		FB45DAB12A33DF7D008DB8DB /* ballonPop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ballonPop.mp3; sourceTree = "<group>"; };
 		FB45DAB72A33E32F008DB8DB /* Pop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Pop.mp3; sourceTree = "<group>"; };
 		FB5D35372A2E478F00CDFA60 /* VistaRegistro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VistaRegistro.swift; sourceTree = "<group>"; };
+		FBC5DFB12AA0181900862141 /* DecorarPastelNivel2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorarPastelNivel2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				430886182A33927A00B5D985 /* DecorarPastel.swift */,
+				FBC5DFB12AA0181900862141 /* DecorarPastelNivel2.swift */,
 			);
 			path = EmilioNivel2;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				430886092A33849400B5D985 /* Tablero.swift in Sources */,
 				43AB126F2A35A3A700A8D1B1 /* KeyboardAdaptive.swift in Sources */,
 				4300B4FE2A32F48200AB1374 /* PerroNivel1.swift in Sources */,
+				FBC5DFB22AA0181900862141 /* DecorarPastelNivel2.swift in Sources */,
 				430885FF2A3380A200B5D985 /* RevientaGlobosNivel2.swift in Sources */,
 				430886062A33845000B5D985 /* Imagen.swift in Sources */,
 				1CB6682F2A36DAA700ACA60B /* ImagenHolderV.swift in Sources */,
