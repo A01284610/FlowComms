@@ -14,42 +14,46 @@ struct GloboSetting: View {
     
     @Binding var isSettingsVisible: Bool
     
-    @Binding var maxGlobos: Int
-    @Binding var minGlobos: Int
-    @Binding var sizeGlobo: Int
+    @Binding var maxGlobos: Double
+    @Binding var minGlobos: Double
+    @Binding var sizeGlobo: Double
     
     @Binding var counter: Int
     @Binding var nCandles: Int
     
+    
     var body: some View {
         VStack(spacing: 20) {
-            Text("Max Globos")
+            Text("Maximos Globos")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            Stepper(value: $maxGlobos, in: minGlobos...100) {
-                Text("\(maxGlobos)")
+            HStack{
+                Slider(value: $maxGlobos, in: minGlobos...100, step: 1)
+                Text("\(Int(maxGlobos))")
                     .font(.title3)
                     .fontWeight(.bold)
             }
             .frame(width: 200)
             
             
-            Text("Min Globos")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            Stepper(value: $minGlobos, in: 1...maxGlobos) {
-                Text("\(minGlobos)")
-                    .font(.title3)
-                    .fontWeight(.bold)
-            }
-            .frame(width: 200)
+//            Text("Minimos Globos")
+//                .font(.largeTitle)
+//                .fontWeight(.bold)
+//            HStack{
+//                Slider(value: $minGlobos, in: 1...maxGlobos, step: 1)
+//                Text("\(minGlobos)")
+//                    .font(.title3)
+//                    .fontWeight(.bold)
+//            }
+//            .frame(width: 200)
             
             
-            Text("Size Globo")
+            Text("Tamaño de Globo")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            Stepper(value: $sizeGlobo, in: 5...200) {
-                Text("\(sizeGlobo)")
+            HStack{
+                Slider(value: $sizeGlobo, in: 5...200, step: 1)
+                Text("\(Int(sizeGlobo))")
                     .font(.title3)
                     .fontWeight(.bold)
             }

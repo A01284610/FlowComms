@@ -11,10 +11,10 @@ struct RevientaGlobosNivel2: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State var maxGlobos: Int = 15
-    @State var minGlobos: Int = 3
+    @State var maxGlobos: Double = 15
+    @State var minGlobos: Double = 3
     let inOrder: Bool = false
-    @State var sizeGlobo: Int = 100
+    @State var sizeGlobo: Double = 100
     
     
     @State private var isSettingsVisible = false
@@ -39,7 +39,7 @@ struct RevientaGlobosNivel2: View {
         if counter >= nCandles {
             positions.removeAll()
             setColors.removeAll()
-            nCandles = Int.random(in: minGlobos...maxGlobos)
+            nCandles = Int.random(in: Int(minGlobos)...Int(maxGlobos))
             
             let bounds = geo.frame(in: .local)
             let minX = Float(bounds.minX + (bounds.maxX-bounds.minX)*0.05)
@@ -150,7 +150,7 @@ struct RevientaGlobosNivel2: View {
                         
                         ForEach(positions.indices.reversed(), id: \.self) { index in
                             let index2 = index + 1
-                            BalloonView(counter: $counter, score: $score, inOrder: inOrder, num: index2, fSize: sizeGlobo+120, imageString: setColors[index])
+                            BalloonView(counter: $counter, score: $score, inOrder: inOrder, num: index2, fSize: Int(sizeGlobo)+120, imageString: setColors[index])
                                 .frame(width: CGFloat(sizeGlobo+120), height: CGFloat(sizeGlobo+120))
                                 .id(viewID) // Unique identifier for each candle view
                                 .position(
