@@ -192,9 +192,6 @@ struct PerroNivel3: View {
                         speakF(text: "Comida para el perro", isOn: textToSpeech)
                     }
                     .shadow(radius: 10)
-                    .onDrag {
-                        return NSItemProvider(object: "dogFoodBag" as NSString)
-                    }
                     .offset(dragAmountFood)
                     .gesture(
                         DragGesture(coordinateSpace: .global)
