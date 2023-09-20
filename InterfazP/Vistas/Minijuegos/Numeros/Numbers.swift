@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Subsonic
 
 struct Numbers: View {
     
@@ -22,6 +23,8 @@ struct Numbers: View {
     @State var arregloDeNumeros = [Int]()
     @State var calculadora = "Numeros/calculadora"
     
+    @State private var totalRight = -1
+    
     @Environment(\.dismiss) private var dismiss
     @State private var mostrarMenu = false
     
@@ -29,6 +32,9 @@ struct Numbers: View {
     
     func generarRandom(){
         
+        totalRight = totalRight + 1
+        play(sound: "ballonPop.mp3")
+
         arregloDeNumeros = [Int]()
         numerorandom1 = Int.random(in: 1...9)
         numerorandom2 = Int.random(in: 1...9)
@@ -90,16 +96,18 @@ struct Numbers: View {
                                 .position(CGPoint(x: geo.size.width/2, y: 2*geo.size.height/10))
                             
                             
-                            Text("Suma de números")
-                                .font(.custom("HelveticaNeue", size: 20))
-                                .foregroundColor(Color.white)
-                                .frame(width: geo.size.width * 0.45, height: geo.size.height * 0.35)
-                                .bold()
-                                .cornerRadius(20)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(Color(red: 0.295, green: 0.31, blue: 0.441)))
-                                .position(CGPoint(x: geo.size.width/2, y: 7 * geo.size.height/10))
+                                Text("Suma de números")
+                                    .font(.custom("HelveticaNeue", size: 20))
+                                    .foregroundColor(Color.white)
+                                    .frame(width: geo.size.width * 0.45, height: geo.size.height * 0.35)
+                                    .bold()
+                                    .cornerRadius(20)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .fill(Color(red: 0.295, green: 0.31, blue: 0.441)))
+                                    .position(CGPoint(x: geo.size.width/2, y: 7 * geo.size.height/10))
+                                
+
                             
                         }
                         
@@ -157,6 +165,7 @@ struct Numbers: View {
             }
             
             ZStack{
+                
                 Image(calculadora)
                     .resizable()
                     .frame(width: 800,height: 700)
@@ -172,6 +181,8 @@ struct Numbers: View {
                 //            var election = arregloDeNumeros[0]
                 //            var electiontwo = arregloDeNumeros[1]
                 let sumaNumeros2 = numerorandom1 + numerorandom2
+                
+                
                 HStack{
                     Button ("\(election)"){
                         if (election == sumaNumeros2){
@@ -184,6 +195,7 @@ struct Numbers: View {
                     .foregroundColor(.white)
                     .buttonStyle(.borderedProminent)
                     .tint(Color(red: 0.936, green: 0.746, blue: 0.073))
+                    .padding(50)
                     
                     
                     Button ("\(electiontwo)"){
@@ -197,8 +209,15 @@ struct Numbers: View {
                     .buttonStyle(.borderedProminent)
                     //.background(.purple)
                     .tint(Color(red: 0.936, green: 0.746, blue: 0.073))
+                    .padding(50)
                 }
                 .offset(x:0, y:250)
+                
+                Text("acertados: \(totalRight)")
+                    .font(.custom("HelveticaNeue", size: 20))
+                    .foregroundColor(Color.white)
+                    .bold()
+                    .offset(x:0, y:-260)
             }
             
             

@@ -241,18 +241,18 @@ struct PerroNivel3: View {
                             }
                             .onEnded { _ in
                                 if dogBox.contains(CGPoint(x: geo.size.width/1.42 + dragAmountSponge.width, y: geo.size.height/1.66 + dragAmountSponge.height)) {
-                                            play(sound: "scrubbing.mp3")
-                                            DispatchQueue.main.async {
-                                                dogImage = "Nivel3/perroEnjabonado"
-                                                Task {
-                                                    play(sound: "dogBark1.mp3")
-                                                    try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
-                                                    dogImage = "Nivel3/dogversion1"
-                                                }
-                                            }
+                                    play(sound: "scrubbing.mp3")
+                                    DispatchQueue.main.async {
+                                        dogImage = "Nivel3/perroEnjabonado"
+                                        Task {
+                                            play(sound: "dogBark1.mp3")
+                                            try? await Task.sleep(nanoseconds: UInt64(3 * 1E9))
+                                            dogImage = "Nivel3/dogversion1"
                                         }
-                                        self.dragAmountSponge = .zero
                                     }
+                                }
+                                self.dragAmountSponge = .zero
+                            }
                     )
                 
                 Text("Limpieza")

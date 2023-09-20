@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Subsonic
 
 struct Restas: View {
     
@@ -23,6 +24,8 @@ struct Restas: View {
     @State var calculadora = "Numeros/calculadora"
     @State var resta = 0
     
+    @State private var totalRight = -1
+    
     @Environment(\.dismiss) private var dismiss
     @State private var mostrarMenu = false
     
@@ -30,6 +33,9 @@ struct Restas: View {
     
     func generarRandom(){
         
+        totalRight = totalRight + 1
+        play(sound: "ballonPop.mp3")
+
         arregloDeNumeros = [Int]()
         numerorandom1 = Int.random(in: 10...20)
         numerorandom2 = Int.random(in: 1...10)
@@ -182,7 +188,8 @@ struct Restas: View {
                     .foregroundColor(.white)
                     .buttonStyle(.borderedProminent)
                     .tint(Color(red: 0.936, green: 0.746, blue: 0.073))
-                    
+                    .padding(50)
+
                     
                     Button ("\(electiontwo)"){
                         if (electiontwo == restaNumeros2){
@@ -195,8 +202,17 @@ struct Restas: View {
                     .buttonStyle(.borderedProminent)
                     //.background(.purple)
                     .tint(Color(red: 0.936, green: 0.746, blue: 0.073))
+                    .padding(50)
+                    
+                    
                 }
                 .offset(x:0, y:250)
+                
+                Text("acertados: \(totalRight)")
+                    .font(.custom("HelveticaNeue", size: 20))
+                    .foregroundColor(Color.white)
+                    .bold()
+                    .offset(x:0, y:-260)
             }
             
             
