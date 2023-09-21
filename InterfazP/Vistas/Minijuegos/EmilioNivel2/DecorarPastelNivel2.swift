@@ -32,6 +32,9 @@ struct DecorarPastelNivel2: View {
     
     @State private var mostrarComunicaciones = false
     
+    @State var cakeBoxL1 = CGRect.zero
+    @State var cakeBoxL2 = CGRect.zero
+    @State var cakeBoxL3 = CGRect.zero
     @State var cakeBox = CGRect.zero
     
     @State var dragAmountBetunAzul = CGSize.zero
@@ -153,7 +156,6 @@ struct DecorarPastelNivel2: View {
                             Image(ladrillosImage)
                                 .resizable()
                                 .frame(width:geo2.size.width*1,height:geo2.size.height*1.0)
-                            //width:geo2.size.width*1,height:geo2.size.height*1.0
                                 .scaledToFill()
                             
                             GeometryReader { geo3 in
@@ -171,7 +173,48 @@ struct DecorarPastelNivel2: View {
                             }
                             .frame(width:geo2.size.width*0.8,height:geo2.size.height*0.8)
 
-
+                            GeometryReader{ geo3 in
+                                Rectangle()
+                                    .fill(.clear)
+                                    .frame(width:geo2.size.width*0.25,height:geo2.size.height*0.13)
+                                    .scaledToFill()
+                                    .overlay {
+                                        Color.clear
+                                            .onAppear{
+                                                cakeBoxL3 = geo3.frame(in: .global)
+                                            }
+                                    }
+                            }
+                            .offset(x:geo2.size.width*0.41 ,y:geo2.size.height*0.36)
+                            
+                            
+                            GeometryReader{ geo3 in
+                                Rectangle()
+                                    .fill(.clear)
+                                    .frame(width:geo2.size.width*0.4,height:geo2.size.height*0.155)
+                                    .scaledToFill()
+                                    .overlay {
+                                        Color.clear
+                                            .onAppear{
+                                                cakeBoxL2 = geo3.frame(in: .global)
+                                            }
+                                    }
+                            }
+                            .offset(x:geo2.size.width*0.33 ,y:geo2.size.height*0.49)
+                            
+                            GeometryReader{ geo3 in
+                                Rectangle()
+                                    .fill(.clear)
+                                    .frame(width:geo2.size.width*0.5,height:geo2.size.height*0.25)
+                                    .scaledToFill()
+                                    .overlay {
+                                        Color.clear
+                                            .onAppear{
+                                                cakeBoxL1 = geo3.frame(in: .global)
+                                            }
+                                    }
+                            }
+                            .offset(x:geo2.size.width*0.28 ,y:geo2.size.height*0.64)
                             
                             Image(pastelL1)
                                 .resizable()
@@ -274,23 +317,17 @@ struct DecorarPastelNivel2: View {
                                             self.dragAmountBetunAzul = CGSize(width: $0.translation.width, height: $0.translation.height)
                                         }
                                         .onEnded { _ in
-                                            let minYInRange: CGFloat = 400 
-                                            let maxYInRange: CGFloat = 550  
-                                            
-                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunAzul.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunAzul.height)) &&
-                                                minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 235 + dragAmountBetunAzul.height {
+                                            if cakeBoxL1.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunAzul.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunAzul.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL1 = "Emilio/betunAzulL1"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunAzul.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunAzul.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 105 + dragAmountBetunAzul.height {
+                                            else if cakeBoxL2.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunAzul.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunAzul.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL2 = "Emilio/betunAzulL2"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunAzul.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunAzul.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 20 + dragAmountBetunAzul.height {
+                                            else if cakeBoxL3.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunAzul.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunAzul.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL3 = "Emilio/betunAzulL3"
                                                 }
@@ -310,23 +347,17 @@ struct DecorarPastelNivel2: View {
                                             self.dragAmountBetunRosa = CGSize(width: $0.translation.width, height: $0.translation.height)
                                         }
                                         .onEnded { _ in
-                                            let minYInRange: CGFloat = 400 
-                                            let maxYInRange: CGFloat = 550  
-                                            
-                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunRosa.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunRosa.height)) &&
-                                                minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 235 + dragAmountBetunRosa.height {
+                                            if cakeBoxL1.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunRosa.width, y: (geo2.frame(in: .global).minY) + 70 + dragAmountBetunRosa.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL1 = "Emilio/betunRosaL1"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunRosa.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunRosa.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 105 + dragAmountBetunRosa.height {
+                                            else if cakeBoxL2.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunRosa.width, y: (geo2.frame(in: .global).minY) + 70 + dragAmountBetunRosa.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL2 = "Emilio/betunRosaL2"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunRosa.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunRosa.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 20 + dragAmountBetunRosa.height {
+                                            else if cakeBoxL3.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunRosa.width, y: (geo2.frame(in: .global).minY) + 70 + dragAmountBetunRosa.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL3 = "Emilio/betunRosaL3"
                                                 }
@@ -346,23 +377,17 @@ struct DecorarPastelNivel2: View {
                                             self.dragAmountBetunNaranja = CGSize(width: $0.translation.width, height: $0.translation.height)
                                         }
                                         .onEnded { _ in
-                                            let minYInRange: CGFloat = 400 
-                                            let maxYInRange: CGFloat = 550  
-                                            
-                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunNaranja.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunNaranja.height)) &&
-                                                minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 85 + dragAmountBetunNaranja.height {
+                                            if cakeBoxL1.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunNaranja.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountBetunNaranja.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL1 = "Emilio/betunNaranjaL1"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunNaranja.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunNaranja.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 45 + dragAmountBetunNaranja.height {
+                                            else if cakeBoxL2.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunNaranja.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountBetunNaranja.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL2 = "Emilio/betunNaranjaL2"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountBetunNaranja.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountBetunNaranja.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 130 + dragAmountBetunNaranja.height {
+                                            else if cakeBoxL3.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountBetunNaranja.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountBetunNaranja.height)) {
                                                 DispatchQueue.main.async {
                                                     pastelL3 = "Emilio/betunNaranjaL3"
                                                 }
@@ -382,24 +407,17 @@ struct DecorarPastelNivel2: View {
                                             self.dragAmountChispas = CGSize(width: $0.translation.width, height: $0.translation.height)
                                         }
                                         .onEnded { _ in
-                                            let minYInRange: CGFloat = 400 
-                                            let maxYInRange: CGFloat = 550  
-                                            var p = (CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountChispas.height))
-                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountChispas.height)) &&
-                                                minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 65 + dragAmountChispas.height {
+                                            if cakeBoxL1.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountChispas.height)) {
                                                 DispatchQueue.main.async {
                                                     chispasL1 = "Emilio/chispasL1"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountChispas.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 195 + dragAmountChispas.height {
+                                            else if cakeBoxL2.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountChispas.height)) {
                                                 DispatchQueue.main.async {
                                                     chispasL2 = "Emilio/chispasL2"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 200 + dragAmountChispas.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 270 + dragAmountChispas.height {
-                                                print("hola")
+                                            else if cakeBoxL3.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountChispas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountChispas.height)) {
                                                 DispatchQueue.main.async {
                                                     chispasL3 = "Emilio/chispasL3"
                                                 }
@@ -420,23 +438,17 @@ struct DecorarPastelNivel2: View {
                                             self.dragAmountPerlas = CGSize(width: $0.translation.width, height: $0.translation.height)
                                         }
                                         .onEnded { _ in
-                                            let minYInRange: CGFloat = 400 
-                                            let maxYInRange: CGFloat = 550  
-                                            
-                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountPerlas.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountPerlas.height)) &&
-                                                minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 65 + dragAmountPerlas.height {
+                                            if cakeBoxL1.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountPerlas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountPerlas.height)) {
                                                 DispatchQueue.main.async {
                                                     perlasL1 = "Emilio/perlasL1"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountPerlas.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountPerlas.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 195 + dragAmountPerlas.height {
+                                            else if cakeBoxL2.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountPerlas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountPerlas.height)) {
                                                 DispatchQueue.main.async {
                                                     perlasL2 = "Emilio/perlasL2"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountPerlas.width, y: (geo2.frame(in: .global).minY) + 200 + dragAmountPerlas.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 270 + dragAmountPerlas.height {
+                                            else if cakeBoxL3.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 230 + dragAmountPerlas.width, y: (geo2.frame(in: .global).minY) + 370 + dragAmountPerlas.height)) {
                                                 DispatchQueue.main.async {
                                                     perlasL3 = "Emilio/perlasL3"
                                                 }
@@ -455,23 +467,17 @@ struct DecorarPastelNivel2: View {
                                             self.dragAmountVelas = CGSize(width: $0.translation.width, height: $0.translation.height)
                                         }
                                         .onEnded { _ in
-                                            let minYInRange: CGFloat = 400
-                                            let maxYInRange: CGFloat = 550
-                                            
-                                            if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountVelas.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountVelas.height)) &&
-                                                minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) - 85 + dragAmountVelas.height {
+                                            if cakeBoxL1.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountVelas.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountVelas.height)) {
                                                 DispatchQueue.main.async {
                                                     velasL1 = "Emilio/velasL1"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountVelas.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountVelas.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 45 + dragAmountVelas.height {
+                                            else if cakeBoxL2.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountVelas.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountVelas.height)) {
                                                 DispatchQueue.main.async {
                                                     velasL2 = "Emilio/velasL2"
                                                 }
                                             }
-                                            else if cakeBox.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountVelas.width, y: (geo2.frame(in: .global).minY) + 100 + dragAmountVelas.height)) &&
-                                                        minYInRange..<maxYInRange ~= (geo2.frame(in: .global).minY) + 130 + dragAmountVelas.height {
+                                            else if cakeBoxL3.contains(CGPoint(x: (geo2.frame(in: .global).minX) + 80 + dragAmountVelas.width, y: (geo2.frame(in: .global).minY) + 220 + dragAmountVelas.height)) {
                                                 DispatchQueue.main.async {
                                                     velasL3 = "Emilio/velasL3"
                                                 }
