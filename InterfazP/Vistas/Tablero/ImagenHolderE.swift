@@ -34,7 +34,7 @@ struct ImagenHolderE: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                 } else {
-                    // Handle the case when the image is not available
+                    // Handle the case when the image is not available.
                     // For example, display a placeholder image or show an error message
                     Image(systemName: "rectangle.on.rectangle.slash")
                         .font(.body)
