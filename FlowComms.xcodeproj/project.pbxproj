@@ -12,6 +12,7 @@
 		1CB668312A36DB2A00ACA60B /* TableViewV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB668302A36DB2A00ACA60B /* TableViewV.swift */; };
 		1CB668332A36DBB200ACA60B /* TableComms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB668322A36DBB200ACA60B /* TableComms.swift */; };
 		1CB668352A36E23C00ACA60B /* SelectTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB668342A36E23C00ACA60B /* SelectTable.swift */; };
+		3735A03A2ACA026400171037 /* AlinearFiguras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3735A0392ACA026400171037 /* AlinearFiguras.swift */; };
 		4300B4F92A32F3F200AB1374 /* Subsonic in Frameworks */ = {isa = PBXBuildFile; productRef = 4300B4F82A32F3F200AB1374 /* Subsonic */; };
 		4300B4FB2A32F43A00AB1374 /* GatoNivel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4300B4FA2A32F43A00AB1374 /* GatoNivel1.swift */; };
 		4300B4FE2A32F48200AB1374 /* PerroNivel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4300B4FD2A32F48200AB1374 /* PerroNivel1.swift */; };
@@ -73,6 +74,7 @@
 		1CB668302A36DB2A00ACA60B /* TableViewV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewV.swift; sourceTree = "<group>"; };
 		1CB668322A36DBB200ACA60B /* TableComms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableComms.swift; sourceTree = "<group>"; };
 		1CB668342A36E23C00ACA60B /* SelectTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTable.swift; sourceTree = "<group>"; };
+		3735A0392ACA026400171037 /* AlinearFiguras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlinearFiguras.swift; sourceTree = "<group>"; };
 		4300B4FA2A32F43A00AB1374 /* GatoNivel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatoNivel1.swift; sourceTree = "<group>"; };
 		4300B4FD2A32F48200AB1374 /* PerroNivel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerroNivel1.swift; sourceTree = "<group>"; };
 		4300B4FF2A32F56900AB1374 /* MenuNivel1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuNivel1.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				430886182A33927A00B5D985 /* DecorarPastel.swift */,
+				3735A0392ACA026400171037 /* AlinearFiguras.swift */,
 				FBC5DFB12AA0181900862141 /* DecorarPastelNivel2.swift */,
 			);
 			path = EmilioNivel2;
@@ -434,6 +437,7 @@
 				430886092A33849400B5D985 /* Tablero.swift in Sources */,
 				43AB126F2A35A3A700A8D1B1 /* KeyboardAdaptive.swift in Sources */,
 				4300B4FE2A32F48200AB1374 /* PerroNivel1.swift in Sources */,
+				3735A03A2ACA026400171037 /* AlinearFiguras.swift in Sources */,
 				FBC5DFB22AA0181900862141 /* DecorarPastelNivel2.swift in Sources */,
 				430885FF2A3380A200B5D985 /* RevientaGlobosNivel2.swift in Sources */,
 				430886062A33845000B5D985 /* Imagen.swift in Sources */,
